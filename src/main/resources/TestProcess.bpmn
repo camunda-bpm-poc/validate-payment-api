@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0ydqy68" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:collaboration id="Collaboration_0c5095b">
+    <bpmn:participant id="Participant_0eru4ep" processRef="Process_0j6c5r2" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0j6c5r2" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:extensionElements>
+        <camunda:formData businessKey="ssn">
+          <camunda:formField id="ssn" label="ssn" type="string" />
+          <camunda:formField id="accountNumber" label="accountNumber" type="string" />
+          <camunda:formField id="paymentAmount" label="paymentAmount" type="string" />
+          <camunda:formField id="paymentDate" label="paymentDate" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0mbbm1m</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1diihf7" messageRef="Message_1q3xvjh" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1733q9q" sourceRef="Activity_0jqrfy7" targetRef="Event_0je7tuo" />
+    <bpmn:sequenceFlow id="Flow_0mbbm1m" sourceRef="StartEvent_1" targetRef="Activity_0jqrfy7" />
+    <bpmn:serviceTask id="Activity_0jqrfy7" name="Validate_Payment">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://localhost:8081/poc/isPaymentValid/${paymentAmount}</camunda:inputParameter>
+            <camunda:outputParameter name="isValid">${response}</camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="paymentAmount">#{paymentAmount}</camunda:inputParameter>
+          <camunda:inputParameter name="ssn">#{ssn}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mbbm1m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1733q9q</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_105kprf" sourceRef="Event_0je7tuo" targetRef="Activity_10w2sqv" />
+    <bpmn:intermediateCatchEvent id="Event_0je7tuo" name="waitForValidPayment">
+      <bpmn:incoming>Flow_1733q9q</bpmn:incoming>
+      <bpmn:outgoing>Flow_105kprf</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_03sjtnv" messageRef="Message_182bavb" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_1oo11ch">
+      <bpmn:incoming>Flow_0b8jnla</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_10w2sqv">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isValid">#{isValid}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="isvalid" type="string" defaultValue="#{isValid}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_105kprf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0b8jnla</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0b8jnla" sourceRef="Activity_10w2sqv" targetRef="Event_1oo11ch" />
+  </bpmn:process>
+  <bpmn:message id="Message_1q3xvjh" name="start_process" />
+  <bpmn:message id="Message_182bavb" name="waitForValidPaymentStatus-${ssn}" />
+  <bpmn:message id="Message_1qg272y" name="Message_1egsrhh" />
+  <bpmn:message id="Message_0hxk6v4" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0c5095b">
+      <bpmndi:BPMNShape id="Participant_0eru4ep_di" bpmnElement="Participant_0eru4ep" isHorizontal="true">
+        <dc:Bounds x="160" y="50" width="1301" height="260" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1733q9q_di" bpmnElement="Flow_1733q9q">
+        <di:waypoint x="490" y="150" />
+        <di:waypoint x="772" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mbbm1m_di" bpmnElement="Flow_0mbbm1m">
+        <di:waypoint x="246" y="150" />
+        <di:waypoint x="390" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_105kprf_di" bpmnElement="Flow_105kprf">
+        <di:waypoint x="808" y="150" />
+        <di:waypoint x="900" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b8jnla_di" bpmnElement="Flow_0b8jnla">
+        <di:waypoint x="1000" y="150" />
+        <di:waypoint x="1082" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1heuyyc_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="210" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09bzvuy_di" bpmnElement="Activity_0jqrfy7">
+        <dc:Bounds x="390" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uw29vm_di" bpmnElement="Event_0je7tuo">
+        <dc:Bounds x="772" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="750" y="175" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1oo11ch_di" bpmnElement="Event_1oo11ch">
+        <dc:Bounds x="1082" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oxc0am_di" bpmnElement="Activity_10w2sqv">
+        <dc:Bounds x="900" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
