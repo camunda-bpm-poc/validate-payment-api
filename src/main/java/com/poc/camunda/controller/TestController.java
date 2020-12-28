@@ -21,18 +21,15 @@ public class TestController {
     }
 
     @RequestMapping(value = "/startProcess", method = RequestMethod.POST)
-    public void startProcess(@RequestBody String paymentInfo){
-        String jsonStr = paymentInfo;
-        JSONObject obj = new JSONObject(jsonStr);
-        String ssn = "";
-        String accountNumber = "";
-        String paymentAmount = "";
-        String paymentDate = "";
-        System.out.println("paymentInfo:"+paymentInfo);
-        ssn = obj.getJSONObject("paymentInfo").getString("ssn");
-        accountNumber = obj.getJSONObject("paymentInfo").getString("accountNumber");
-        paymentAmount = obj.getJSONObject("paymentInfo").getString("paymentAmount");
-        paymentDate = obj.getJSONObject("paymentInfo").getString("paymentDate");
+    public void startProcess(@RequestBody PaymentRequest paymentRequest){
+//        String jsonStr = paymentInfo;
+//        JSONObject obj = new JSONObject(jsonStr);
+//        System.out.println("paymentInfo:"+paymentInfo);
+
+        String ssn = paymentRequest.getPaymentInfo().getSsn();
+        String accountNumber = paymentRequest.getPaymentInfo().getAccountNumber();
+        String paymentAmount = paymentRequest.getPaymentInfo().getPaymentAmount();
+        String paymentDate = paymentRequest.getPaymentInfo().getPaymentDate();
         System.out.println(ssn+" "+accountNumber+" "+paymentAmount+" "+paymentDate);
         camundaStartService.startProcessByMessage(ssn,accountNumber, paymentAmount, paymentDate);
     }
