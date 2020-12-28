@@ -1,0 +1,8 @@
+spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+server.port: 8081
+camunda.bpm:
+  admin-user:
+    id: admin
+    password: admin
+  filter:
+    create: All tasks
