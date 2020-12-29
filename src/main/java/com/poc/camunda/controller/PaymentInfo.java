@@ -8,4 +8,5 @@ public class PaymentInfo {
     private String accountNumber;
     private String paymentAmount;
     private String paymentDate;
+    private Boolean validAmount;
 }

@@ -26,12 +26,12 @@ public class TestController {
 //        JSONObject obj = new JSONObject(jsonStr);
 //        System.out.println("paymentInfo:"+paymentInfo);
 
-        String ssn = paymentRequest.getPaymentInfo().getSsn();
-        String accountNumber = paymentRequest.getPaymentInfo().getAccountNumber();
-        String paymentAmount = paymentRequest.getPaymentInfo().getPaymentAmount();
-        String paymentDate = paymentRequest.getPaymentInfo().getPaymentDate();
-        System.out.println(ssn+" "+accountNumber+" "+paymentAmount+" "+paymentDate);
-        camundaStartService.startProcessByMessage(ssn,accountNumber, paymentAmount, paymentDate);
+//        String ssn = paymentRequest.getPaymentInfo().getSsn();
+//        String accountNumber = paymentRequest.getPaymentInfo().getAccountNumber();
+//        String paymentAmount = paymentRequest.getPaymentInfo().getPaymentAmount();
+//        String paymentDate = paymentRequest.getPaymentInfo().getPaymentDate();
+//        System.out.println(ssn+" "+accountNumber+" "+paymentAmount+" "+paymentDate);
+        camundaStartService.startProcessByMessage(paymentRequest);
     }
 
     @RequestMapping(value = "/isPaymentValid/{paymentAmount}", method = RequestMethod.GET)
@@ -42,13 +42,13 @@ public class TestController {
         else
                 return "false";
     }
-    @RequestMapping(value = "/sentPaymentValidStatus", method = RequestMethod.POST)
-    public void resumeProcess(@RequestBody String paymentStatus){
-        String jsonStr = paymentStatus;
-        JSONObject obj = new JSONObject(jsonStr);
-        String correlationID = obj.getJSONObject("paymentStatus").getString("correlationID");
-        String isValid = obj.getJSONObject("paymentStatus").getString("isValid");
-        camundaStartService.resumeProcess(correlationID,isValid);
-    }
+//    @RequestMapping(value = "/sentPaymentValidStatus", method = RequestMethod.POST)
+//    public void resumeProcess(@RequestBody String paymentStatus){
+//        String jsonStr = paymentStatus;
+//        JSONObject obj = new JSONObject(jsonStr);
+//        String correlationID = obj.getJSONObject("paymentStatus").getString("correlationID");
+//        String isValid = obj.getJSONObject("paymentStatus").getString("isValid");
+//        //camundaStartService.resumeProcess(correlationID,isValid);
+//    }
 
 }
