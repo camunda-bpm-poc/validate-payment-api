@@ -17,10 +17,12 @@ public class PaymentDelegate implements JavaDelegate {
         PaymentInfo paymentInfo = camundaStartService.getPaymentInfo();
         Integer paymentAmt = Integer.parseInt(paymentInfo.getPaymentAmount());
 
-        if(paymentAmt == 100)
+        if(paymentAmt <= 100)
             paymentInfo.setValidAmount(true);
         else
             paymentInfo.setValidAmount(false);
-        kafkaService.sendMessage(paymentInfo);
+        if(paymentAmt < 1000) {
+            kafkaService.sendMessage(paymentInfo);
+        }
     }
 }

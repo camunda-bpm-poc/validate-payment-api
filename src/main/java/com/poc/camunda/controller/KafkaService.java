@@ -50,6 +50,7 @@ public class KafkaService {
         }
         String correlationID = "waitForValidPaymentStatus-"+account.getSsn();
         boolean isValid = account.getValidAmount();
+        System.out.println("Resuming Process");
         camundaStartService.resumeProcess(correlationID,isValid);
     }
 
