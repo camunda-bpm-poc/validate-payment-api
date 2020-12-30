@@ -18,6 +18,9 @@ dependencies {
     compile group: 'org.camunda.bpm', name: 'camunda-engine-plugin-connect', version: '7.12.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.3.1.RELEASE'
     compile group: 'org.json', name: 'json', version: '20201115'
+    compile group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.3.1.RELEASE'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }

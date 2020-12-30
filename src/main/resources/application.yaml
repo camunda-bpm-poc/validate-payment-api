@@ -6,3 +6,16 @@ camunda.bpm:
     password: admin
   filter:
     create: All tasks
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: 10.105.22.61:9092
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: 10.105.22.61:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
